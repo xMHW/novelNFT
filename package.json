@@ -17,6 +17,7 @@
     "@supabase/supabase-js": "^1.35.7",
     "antd": "^5.5.0",
     "array-to-image": "^1.0.0",
+    "axios": "^1.4.0",
     "blurhash": "^1.1.5",
     "clsx": "^1.2.1",
     "cuid": "^2.1.8",
