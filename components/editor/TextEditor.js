@@ -24,6 +24,7 @@ const Button = React.forwardRef(({ active, ...children }) => (
     className={`${active && 'font-bold'} cursor-pointer mr-3 p-1`}
   />
 ))
+Button.displayName = "Button"
 
 const TextEditor = (props) => {
   const [value, setValue] = useState(props.initialValue)

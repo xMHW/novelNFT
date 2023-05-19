@@ -116,7 +116,7 @@ export default function SiteDrafts() {
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-cal text-gray-600">
-                    No drafts yet. Click "New Draft" to create one.
+                    No drafts yet. Click New Draft to create one.
                   </p>
                 </div>
               </>

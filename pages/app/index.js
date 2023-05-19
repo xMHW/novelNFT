@@ -198,7 +198,7 @@ export default function AppIndex() {
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-cal text-gray-600">
-                    No sites yet. Click "New Site" to create one.
+                    No sites yet. Click New Site to create one.
                   </p>
                 </div>
               </>

@@ -112,7 +112,7 @@ export default function SiteIndex() {
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-cal text-gray-600">
-                    No posts yet. Click "New Post" to create one.
+                    No posts yet. Click New Post to create one.
                   </p>
                 </div>
               </>
