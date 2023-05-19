@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   const isLoginScreen = router.asPath == "/login";
 
   useEffect(() => {
-    if(router.asPath == "/" || router.asPath == "/home") {
+    if(router.asPath == "/home") {
       if(global.currentTab !== "home") {
         setGlobal({...global, ...{currentTab: "home"}})
       }
