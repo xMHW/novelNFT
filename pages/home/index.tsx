@@ -2,7 +2,7 @@ import { useEvmNativeBalance } from '@moralisweb3/next';
 import { Input, Space } from 'antd';
 import { useState } from 'react';
 
-function getBalance(props) {
+function GetBalance(props) {
     const {address} = props;
     const { data: nativeBalance } = useEvmNativeBalance({ address });
     return (
@@ -19,7 +19,7 @@ export default function Home() {
                 <Input placeholder="MetaMask Address" onChange={(evt) => {setAddress(evt.target.value)}} />
             </Space.Compact>
             <h3>Wallet: {address}</h3>
-            {getBalance({address})}
+            {GetBalance({address})}
         </div>
     );
 }

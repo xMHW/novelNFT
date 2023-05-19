@@ -136,7 +136,7 @@ devDependencies:
     specifier: ^8.36.0
     version: 8.36.0
   eslint-config-next:
-    specifier: canary
+    specifier: 13.4.3-canary.3
     version: 13.4.3-canary.3(eslint@8.36.0)(typescript@5.0.4)
   postcss:
     specifier: ^8.4.21
