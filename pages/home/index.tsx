@@ -11,7 +11,7 @@ function getBalance(props) {
 }
 
 export default function Home() {
-    const [address, setAddress] = useState<string>('');
+    const [address, setAddress] = useState<string>("");
 
     return (
         <div>
