@@ -6,7 +6,8 @@
       "@/data/*": ["data/*"],
       "@/layouts/*": ["layouts/*"],
       "@/lib/*": ["lib/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["styles/*"],
+      "@/types/*": ["types/*"],
     },
     "rootDir": ".",
     "outDir": "./built",
@@ -31,7 +32,9 @@
   },
   "include": [
     "./pages/**/*",
-    "./components/**/*"
+    "./components/**/*",
+    "./lib/**/*",
+    "./types/**/*",
   ],
   "exclude": [
     "node_modules"
