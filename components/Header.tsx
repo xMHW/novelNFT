@@ -31,7 +31,6 @@ const Header: React.FC = () => {
         setGlobal({...global, ...{currentTab: "login"}})
       }
     }
-    console.log(session);
   })
 
 
