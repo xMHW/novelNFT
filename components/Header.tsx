@@ -61,7 +61,7 @@ const Header: React.FC = () => {
         <Image
           width={68}
           height={44}
-          src={"Logo.svg"}
+          src={"/Logo.svg"}
           alt="Picture of me"
         />
         <Typography.Title level={2} style={{ marginTop: 25 }}>
