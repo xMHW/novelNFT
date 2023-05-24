@@ -1,9 +1,9 @@
-import { fetchContests, fetchPosts } from '@/lib/apis';
-import { Typography, Image, Layout, Row } from 'antd';
+import { fetchContests } from '@/lib/apis';
+import { Typography, Image, Row } from 'antd';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const { Title } = Typography;
-
 
 export default function Contest() {
     const ongoingContestID = 1;
@@ -12,6 +12,7 @@ export default function Contest() {
         "image_url": "",
         "name": ""
     });
+    const router = useRouter();
 
     useEffect(() => {
         const loadData = async () => {
@@ -31,19 +32,17 @@ export default function Contest() {
         })
     }, [contests])
 
+    const onContestClick = (contestID) => {
+        router.push("/contest/"+contestID)
+    }
+
     return (
         <>
             <Title>Bi-Weekly NFT Contest</Title>
             <div>
                 <Title level={4}>On-going Contest</Title>
                 <div>
-                    {/* <Image
-                        width={200}
-                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                        preview={false}
-                    />
-                    <Typography>{"Ongoing"}</Typography> */}
-                    <Image width={200} src={ongoingContest.image_url} preview={false} />
+                    <Image width={200} src={ongoingContest.image_url} preview={false} onClick={() => onContestClick(1)} />
                     <Typography>{ongoingContest.name}</Typography>
                 </div>
             </div>
@@ -54,7 +53,7 @@ export default function Contest() {
                         contests.map((contest) => {
                             return (
                                 <div>
-                                    <Image width={200} src={contest.image_url} preview={false} />
+                                    <Image width={200} src={contest.image_url} preview={false} onClick={() => onContestClick(contest.id)} />
                                     <Typography>{contest.name}</Typography>
                                 </div>
                             )
