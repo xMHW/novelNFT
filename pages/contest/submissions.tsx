@@ -16,7 +16,7 @@ export default function Submissions(){
             <Card
                 hoverable
                 style={{ width: 200 }}
-                cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                cover={<img alt="example" src="https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/chapter_22.png" />}
             >
                 <div>
                     <Meta title="Title" description="winner" />
