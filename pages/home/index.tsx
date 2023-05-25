@@ -1,5 +1,7 @@
 import { DollarOutlined, ShoppingCartOutlined, UsergroupAddOutlined } from "@ant-design/icons";
-import { Card, Col, List, Row, theme, Image, Badge, Typography } from "antd";
+import { Card, Col, List, Row, theme, Image, Badge, Typography, Avatar, Tag, Button, Space } from "antd";
+import { useRouter } from "next/router";
+import { useState } from "react";
 const { Title, Text } = Typography;
 
 const { Meta } = Card;
@@ -42,9 +44,113 @@ const CategoryBadge = (props: { category: string }): JSX.Element => {
   )
 }
 
-export default function Home() {
-  const { token } = useToken();
+interface HOFItem {
+  title: string;
+  thumbnailLink: string;
+  type: string;
+  rankData?: rankItem[];
+}
 
+interface rankItem {
+  userName: string;
+  avatarImg: string;
+  tokenCount: number;
+}
+
+const HOFCard = (props: { item: HOFItem }): JSX.Element => {
+  const { item } = props;
+  const rankData: rankItem[] = item.rankData || [
+    {
+      userName: "User 1",
+      avatarImg: "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+      tokenCount: 100
+    },
+    {
+      userName: "User 2",
+      avatarImg: "https://xsgames.co/randomusers/avatar.php?g=pixel&key=2",
+      tokenCount: 90
+    },
+    {
+      userName: "User 3",
+      avatarImg: "https://xsgames.co/randomusers/avatar.php?g=pixel&key=3",
+      tokenCount: 80
+    }
+  ]
+  return (
+    (<Card
+      style={{ width: 180 }}
+      cover={
+          (item.type === "token") ? 
+          <List
+            itemLayout="horizontal"
+            dataSource={rankData}
+            renderItem={(row, index) => (
+              <List.Item >
+                <List.Item.Meta
+                  style={{ marginLeft: "15px" }}
+                  avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />}
+                  title={row.userName}
+                  description={row.tokenCount}
+                />
+              </List.Item>
+          )}/> : <img alt={item.title} src={item.thumbnailLink} />
+      }>
+        <Meta title={item.title} />
+      </Card>)
+  )
+}
+
+interface VoteItem {
+  title: string;
+  thumbnailLink: string;
+  firstLink: string;
+  secondLink: string;
+  thirdLink: string;
+  status: string;
+  detailLink: string;
+}
+
+const VoteCard = (props: { item: VoteItem }): JSX.Element => {
+  const { item } = props;
+  const [visible, setVisible] = useState(false);
+  const router = useRouter();
+  const clickHandler = () => {
+    router.push(item.detailLink)
+  }
+  return (
+    <List.Item>
+      <Space>
+        <Image
+          preview={{ visible: false }}
+          width={180}
+          height={250}
+          src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp"
+          onClick={() => setVisible(true)}
+        />
+        <div style={{ display: 'none' }}>
+          <Image.PreviewGroup preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}>
+            <Image src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp" />
+            <Image src="https://gw.alipayobjects.com/zos/antfincdn/cV16ZqzMjW/photo-1473091540282-9b846e7965e3.webp" />
+            <Image src="https://gw.alipayobjects.com/zos/antfincdn/x43I27A55%26/photo-1438109491414-7198515b166b.webp" />
+          </Image.PreviewGroup>
+        </div>
+      </Space>
+      <Space>
+        <Button onClick={clickHandler}
+                type="text"
+                style={{ margin: 5, padding: 0 }}>
+          Go to contest..
+        </Button>
+        {item.status == "ongoing"
+          ? <Tag color="processing">Ongoing</Tag>
+          : <Tag color="success">Finished</Tag>}
+      </Space>
+      <Title style={{marginTop: 0}} level={5}>{item.title}</Title>
+    </List.Item>
+  )
+}
+
+export default function Home() {
   const newsData = [
     {
       title: "Chapter #22",
@@ -91,32 +197,51 @@ export default function Home() {
       upvoteCount: 87
     }
   ]
-  const dataVotes = [
+  const dataVotes: VoteItem[] = [
     {
       title: "MC Skill Contest",
       thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      firstLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      secondLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thirdLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      status: "ongoing",
+      detailLink: "/contest/1"
     },
     {
       title: "Official Illust Vote",
       thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      firstLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      secondLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thirdLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      status: "finished",
+      detailLink: "/contest/2",
     },
     {
       title: "Villain X Fan Art Vote",
       thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      firstLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      secondLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thirdLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      status: "finished",
+      detailLink: "/contest/3",
     }
   ]
-  const dataHOF = [
+
+  const dataHOF: HOFItem[] = [
     {
       title: "Token",
       thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      type: "token"
     },
     {
       title: "Fan Art",
       thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      type: "fanart"
     },
     {
       title: "Officials",
       thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      type: "official"
     }
   ]
   return (
@@ -133,12 +258,12 @@ export default function Home() {
           </Col>
         ))}
       </Row>
-      <Row style={{ marginTop: "40px" }} gutter={10}>
+      <Row style={{ marginTop: "40px" }} gutter={20}>
         <Col span={12}>
           <List
             header={
               <>
-                <Title level={3}>Votes</Title>
+                <Title level={3} style={{ marginTop: 0 }}>Votes</Title>
                 <Text>Vote for the best</Text>
               </>
             }
@@ -146,9 +271,8 @@ export default function Home() {
             grid={{ gutter: 16, column: 3 }}
             dataSource={dataVotes}
             renderItem={(item) => (
-              <List.Item>
-                <Card title={item.title}>Card content</Card>
-              </List.Item>
+              <VoteCard item={item} />
+              
             )}
           />
         </Col>
@@ -165,7 +289,7 @@ export default function Home() {
             dataSource={dataHOF}
             renderItem={(item) => (
               <List.Item>
-                <Card title={item.title}>Card content</Card>
+                <HOFCard item={item} />
               </List.Item>
             )}
           />
