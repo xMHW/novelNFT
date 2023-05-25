@@ -10,25 +10,51 @@ export default function Detail(){
     const router = useRouter();
     const contestID = router.query.id;
     const [contest, setContest] = useState<any>();
+    const [entryDur, setEntryDur] = useState<string>();
+    const [votingDur, setVotingDur] = useState<string>();
+    const [showcaseDur, setShowcaseDur] = useState<string>();
+
+    const loadContest = async () => {
+        const contest = await fetchContest(contestID);
+        setContest(contest[0]);
+        setSchedule(contest[0].start_time, contest[0].end_time)
+    };
+    
+    
+      
+      
+
+    const setSchedule = (startTime: string, endTime: string) => {
+        const formatDuration = (start, end) => {
+            const formattedStart = start.toLocaleString("en-US", {month: "short", day: "2-digit", year: "numeric"})
+            const formattedEnd = end.toLocaleString("en-US", {month: "short", day: "2-digit", year: "numeric"})
+            const result = formattedStart + " ~ " + formattedEnd
+            return result
+        }
+        const entryStart = new Date(startTime)
+        const entryEnd = new Date(endTime)
+        const votingStart = new Date(entryEnd.getFullYear(), entryEnd.getMonth(), entryEnd.getDate() + 1)
+        const votingEnd = new Date(votingStart.getFullYear(), votingStart.getMonth(), votingStart.getDate() + 7)
+        const showcaseStart = new Date(votingEnd.getFullYear(), votingEnd.getMonth(), votingEnd.getDate() + 1)
+        const showcaseEnd = new Date(showcaseStart.getFullYear(), showcaseStart.getMonth(), showcaseStart.getDate() + 14)
+        setEntryDur(formatDuration(entryStart, entryEnd))
+        setVotingDur(formatDuration(votingStart, votingEnd))
+        setShowcaseDur(formatDuration(showcaseStart, showcaseEnd))
+    }
 
     useEffect(() => {
-        console.log(contestID);
-        console.log(typeof(contestID))
-        const loadData = async () => {
-            const contest = await fetchContest(contestID);
-            console.log(contest)
-            setContest(contest);
-        };
-        loadData();
-        console.log(contest)
+        if (contestID){
+            loadContest();
+        }
     }, [contestID])
 
     return(
+        (contest) &&
         <>
             <div>
                 <Title level={3}>Subject</Title >
                 <Card style={{ width: 300 }}>
-                    <p>“Kim Dok-ja” Illustration</p>
+                    <p>{contest.name}</p>
                 </Card>
             </div>
             <div>
@@ -37,7 +63,7 @@ export default function Detail(){
                     <p>Showcase for 2 weeks</p>
                     <Image
                         width={200}
-                        src=""
+                        src={contest.image_url}
                         preview={false}
                     />
                 </Card>
@@ -46,11 +72,11 @@ export default function Detail(){
                 <Title level={3}>Schedule</Title >
                 <Card style={{ width: 300 }}>
                     <Title level={5}>Entry</Title>
-                    <p>May 1, 2023 ~ May 7, 2023</p>
+                    <p>{entryDur}</p>
                     <Title level={5}>Voting</Title>
-                    <p>May 8, 2023 ~ May 14, 2023</p>
+                    <p>{votingDur}</p>
                     <Title level={5}>Showcase</Title>
-                    <p>May 15, 2023 ~ May 21, 2023</p>
+                    <p>{showcaseDur}</p>
                 </Card>
             </div>
             <div>
