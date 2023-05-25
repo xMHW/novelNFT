@@ -26,6 +26,7 @@
     "cuid": "^3.0.0",
     "date-fns": "^2.30.0",
     "escape-html": "^1.0.3",
+    "ethers": "^5",
     "fs": "0.0.1-security",
     "gray-matter": "^4.0.3",
     "is-hotkey": "^0.2.0",
@@ -54,7 +55,9 @@
     "supabase": "^1.62.3",
     "swr": "^2.1.5",
     "use-debounce": "^9.0.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "viem": "^0.3.36",
+    "wagmi": "^1.0.5"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",

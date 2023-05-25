@@ -30,8 +30,11 @@ const Header: React.FC = () => {
       if(global.currentTab !== "login") {
         setGlobal({...global, ...{currentTab: "login"}})
       }
+    } else if (router.asPath == "profile") {
+      if(global.currentTab !== "profile") {
+        setGlobal({...global, ...{currentTab: "profile"}})
+      }
     }
-    console.log(session);
   })
 
 
@@ -53,6 +56,9 @@ const Header: React.FC = () => {
     } else if (e.key == "logout") {
       setGlobal({ ...global, ...{ currentTab: "home" } });
       signOut();
+    } else if (e.key == "profile") {
+      setGlobal({ ...global, ...{ currentTab: "profile" } });
+      router.push("/profile");
     }
   };
 
@@ -99,7 +105,7 @@ const Header: React.FC = () => {
               </Menu.Item>
               <Menu.Item key="profile" style={{float: "right"}}>
                 <Avatar style={{ verticalAlign: 'middle', marginRight: "5px" }}>
-                  {session?.user?.name?.charAt(0)}
+                  {session?.user?.name?.charAt(0) || "U"}
                 </Avatar>
                 {session?.user?.name}
               </Menu.Item>

@@ -4,8 +4,16 @@ import { Spin, Button, Row, Form, Input, Checkbox } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
+import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
 
 export default function Login() {
+  const { connectAsync } = useConnect();
+  const { disconnectAsync } = useDisconnect();
+  const { isConnected } = useAccount();
+  const { signMessageAsync } = useSignMessage();
+  const { requestChallengeAsync } = useAuthRequestChallengeEvm();
   const { status } = useSession();
   const router = useRouter();
   useEffect(() => {
@@ -14,6 +22,32 @@ export default function Login() {
     }
   }, [status]);
   const [loading, setLoading] = useState(false);
+
+  const handleMetaMaskAuth = async () => {
+    if (isConnected) {
+      await disconnectAsync();
+    }
+
+    const { account, chain } = await connectAsync({
+      connector: new MetaMaskConnector(),
+    });
+
+    const { message } = await requestChallengeAsync({
+      address: account,
+      chainId: chain.id,
+    });
+
+    const signature = await signMessageAsync({ message });
+    console.log(signature);
+
+    const { url } = await signIn("moralis-auth", {
+      message,
+      signature,
+      redirect: false,
+      callbackUrl: "/home",
+    });
+    router.push(url);
+  };
 
   return (
     status == "loading" ? <Spin/>
@@ -68,6 +102,7 @@ export default function Login() {
               type="primary"
               icon={<GithubOutlined />}
               size="middle"
+              style={{ backgroundColor: "#3056D3" }}
               disabled={loading}
               onClick={() => {
                 setLoading(true);
@@ -75,6 +110,21 @@ export default function Login() {
               }}
               >
               Login with Github
+              {loading && <Spin />}
+            </Button>
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button
+              type="primary"
+              style={{ backgroundColor: "#FCA564" }}
+              size="middle"
+              disabled={loading}
+              onClick={() => {
+                setLoading(true);
+                handleMetaMaskAuth();
+              }}
+              >
+              Login with MetaMask
               {loading && <Spin />}
             </Button>
           </Form.Item>
