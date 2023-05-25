@@ -3,11 +3,12 @@ import jwt from "jsonwebtoken";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
-
 import { supabase } from "@/lib/supabase";
+import { MoralisNextAuthProvider } from "@moralisweb3/next";
 
 export const authOptions: AuthOptions = {
   providers: [
+    MoralisNextAuthProvider(),
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
@@ -59,8 +60,11 @@ export const authOptions: AuthOptions = {
       // console.log("new session", session);
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user }) {
       token.id = token.sub!;
+      if(user) {
+        token.user = user;
+      }
       return token;
     },
   },
