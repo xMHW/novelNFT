@@ -9,3 +9,8 @@ export const fetchContests = async () => {
   const { data: contests } = await axios.get("/api/contests");
   return contests;
 };
+
+export const fetchContest = async (contestID) => {
+  const { data: contest } = await axios.get(`/api/contests/${contestID}`);
+  return contest;
+};
