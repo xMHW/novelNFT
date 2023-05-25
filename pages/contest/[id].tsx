@@ -88,15 +88,15 @@ export default function Detail(){
                     items={[
                     {
                         title: 'Step 1',
-                        description,
+                        description: 'Prepare your artwork: Ensure that your work is formatted and optimized appropriately for digital display. Consider the specifications and recommendations provided by the contest organizers for file size, dimensions, and format.',
                     },
                     {
                         title: 'Step 2',
-                        description,
+                        description: 'Submit your entry: Follow the instructions provided on the contest website to submit your work. This may involve uploading the file, providing a description or artist statement, and any additional information as specified by the organizers.',
                     },
                     {
                         title: 'Step 3',
-                        description,
+                        description: 'Promotion and sharing: If allowed or encouraged, promote your entry on social media platforms or other relevant channels using designated hashtags or contest tags. This can help increase visibility and engagement for your work.',
                     },
                     ]}
                 />
@@ -104,9 +104,10 @@ export default function Detail(){
             <div>
                 <Title level={3}>Qualifications</Title >
                 <Card style={{ width: 300 }}>
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    <p>Only community members: Contestants must have tokens for this novel community can participate in.</p>
+                    <p>Originality and authenticity: Submissions must be original creations of the participant. Plagiarism or infringement of intellectual property rights will lead to disqualification. Ensure that your work does not include copyrighted or trademarked elements without proper authorization.</p>
+                    <p>One entry per member: Contestants can only submit one work.</p>
+                    <p>Rights and permissions: By submitting your work, you acknowledge that you hold the necessary rights and permissions for the artwork. This includes obtaining consent for the use of any recognizable individuals, copyrighted materials, or trademarks featured in your creation.</p>
                 </Card>
             </div>
         </>
