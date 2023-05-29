@@ -6,6 +6,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import Moralis from "moralis";
+//import { MoralisNextApi } from "@moralisweb3/next";
+//import { EvmChain } from "@moralisweb3/common-evm-utils";
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://yssqxlnziqbocixqzokp.supabase.co';
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 const { Title } = Typography;
 
 const data = [
@@ -37,6 +46,28 @@ const data = [
     },
   ];
   
+async function testMoralis() {
+  try {
+    await Moralis.start({
+      apiKey: "X3gRyyfN0TpcIJe8pa9WcdU7SeHxxvB05zEETxWsCSB2nqCjp9k7ZJhRpIcWf2jL",
+    });
+    /*
+    const response = await Moralis.EvmApi.token.getTokenAllowance({
+      "chain": "0xaa36a7"
+    });
+    */
+    const response = await Moralis.EvmApi.token.getWalletTokenBalances({
+      "chain": "0xaa36a7",
+      "address": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045"
+    });
+    console.log("response");
+    console.log(response.toJSON());
+  } catch (e) {
+    console.error(e);
+  }
+  
+}
+
 
 export default function Vote() {
   const { status } = useSession();
@@ -54,6 +85,19 @@ export default function Vote() {
   const handleVoteCancel = () => {
     setIsVoteModalOpen(false);
   }
+
+  useEffect(() => {
+    testMoralis();
+    if (status === "loading") {
+      setLoading(true);
+    } else if (status === "authenticated") {
+      setLoading(false);
+    } else {
+      signIn();
+    }
+  }, [status]);
+
+  useEffect(() => {testMoralis();}, []);
 
   return (
     status == "loading" ? <Spin/>
