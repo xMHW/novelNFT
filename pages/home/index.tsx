@@ -1,5 +1,5 @@
 import { DollarOutlined, ShoppingCartOutlined, UsergroupAddOutlined } from "@ant-design/icons";
-import { Card, Col, List, Row, theme, Image, Badge, Typography, Avatar, Tag, Button, Space } from "antd";
+import { Card, Col, List, Row, theme, Image, Badge, Typography, Avatar, Tag, Button, Space, Modal, Descriptions } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
 const { Title, Text } = Typography;
@@ -12,17 +12,19 @@ interface NewsCardProps {
   date: string;
   imageLink: string;
   imageAlt: string;
+  setOpen: (open: boolean) => void;
 }
 
 const NewsCard = (props: NewsCardProps): JSX.Element => {
   const { token } = useToken();
-  const { title, date, imageLink, imageAlt } = props;
+  const { title, date, imageLink, imageAlt, setOpen } = props;
 
   return (
     <Card
       hoverable
       style={{ width: 240, backgroundColor: token.colorPrimary }}
       cover={<img alt={imageAlt} src={imageLink} />}
+      onClick={() => {setOpen(true)}}
     >
       <Meta title={title} description={date} />
     </Card>
@@ -151,6 +153,8 @@ const VoteCard = (props: { item: VoteItem }): JSX.Element => {
 }
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+
   const newsData = [
     {
       title: "Chapter #22",
@@ -254,6 +258,7 @@ export default function Home() {
               date={news.date}
               imageLink={news.imageLink}
               imageAlt={news.imageAlt}
+              setOpen={setOpen}
             />
           </Col>
         ))}
@@ -313,6 +318,7 @@ export default function Home() {
               <List.Item
                 key={item.title}
                 style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+                onClick={() => {setOpen(true)}}
               >
                 <List.Item.Meta
                   style={{ width: "420px", maxWidth: "420px" }}
@@ -358,6 +364,51 @@ export default function Home() {
           </Card>
         </Col>
       </Row>
+      <Modal
+        title="Sample Blog Post"
+        centered
+        open={open}
+        onCancel={() => setOpen(false)}
+        footer={null}
+        width={1000}
+      >
+        <Descriptions title="MC got a new skill" layout="vertical" bordered>
+          <Descriptions.Item label="Created At" span={1}>2023-05-21 18:00:00</Descriptions.Item>
+          <Descriptions.Item label="Author" span={1}>Author</Descriptions.Item>
+          <Descriptions.Item label="Upvotes" span={1}>420</Descriptions.Item>
+          <Descriptions.Item label="Content" span={3}>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+            <br/>
+            TestTestTestTestTestTestTestTestTestTestTestTest
+          </Descriptions.Item>
+        </Descriptions>
+      </Modal>
     </>
   )
 }
