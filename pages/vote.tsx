@@ -7,13 +7,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import Moralis from "moralis";
-//import { MoralisNextApi } from "@moralisweb3/next";
+import { MoralisNextApi } from "@moralisweb3/next";
 //import { EvmChain } from "@moralisweb3/common-evm-utils";
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://yssqxlnziqbocixqzokp.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 const { Title } = Typography;
 
@@ -46,26 +41,53 @@ const data = [
     },
   ];
   
-async function testMoralis() {
+async function checkTokenBalance() {
   try {
     await Moralis.start({
       apiKey: "X3gRyyfN0TpcIJe8pa9WcdU7SeHxxvB05zEETxWsCSB2nqCjp9k7ZJhRpIcWf2jL",
     });
-    /*
-    const response = await Moralis.EvmApi.token.getTokenAllowance({
-      "chain": "0xaa36a7"
-    });
-    */
     const response = await Moralis.EvmApi.token.getWalletTokenBalances({
       "chain": "0xaa36a7",
-      "address": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045"
+      "address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255"
     });
     console.log("response");
-    console.log(response.toJSON());
+    const resultJSON = response.toJSON();
+    console.log(resultJSON);
+    let flag = false;
+    for(let i = 0;i < resultJSON.length;i++) {
+      if(resultJSON[i]["token_address"] == "0xb510a7c888095068f1ddd8563ef34981b1eb5c72") {
+        console.log(resultJSON[i]["balance"]); ///////// handle balance
+        flag = true;
+      }
+    }
+    if(!flag) {
+      console.log("no balance");
+    }
   } catch (e) {
     console.error(e);
   }
-  
+}
+
+async function transferToken(amount: number) {
+  try {
+    const response = await Moralis.EvmApi.token.getWalletTokenTransfers({ // it get transfer list of wallet
+      //"address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255",
+      "address": "0xdd9DFB70C43A94B5Af845f737bEDE08e9bB231DE",
+      "chain": "0xaa36a7"
+    });
+    /*
+    const response22 = await Moralis.EvmApi.token.getErc20Transfers({
+      "address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255",
+      "chain": "0xaa36a7"
+    });
+    */
+    console.log("response");
+    const resultJSON = response.toJSON();
+    console.log(resultJSON);
+
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 
@@ -81,13 +103,13 @@ export default function Vote() {
   const handleVoteApply = () => {
     //setIsVoteModalOpen();
     console.log("vote apply");
+    transferToken(1);
   }
   const handleVoteCancel = () => {
     setIsVoteModalOpen(false);
   }
 
   useEffect(() => {
-    testMoralis();
     if (status === "loading") {
       setLoading(true);
     } else if (status === "authenticated") {
@@ -97,7 +119,7 @@ export default function Vote() {
     }
   }, [status]);
 
-  useEffect(() => {testMoralis();}, []);
+  useEffect(() => {checkTokenBalance();}, []);
 
   return (
     status == "loading" ? <Spin/>
