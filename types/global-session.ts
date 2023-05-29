@@ -1,3 +1,3 @@
 export type GlobalSession = {
-  currentTab: "home" | "about" | "features" | "login" | "profile";
+  currentTab: "home" | "about" | "contest" | "login" | "profile";
 };
