@@ -1,38 +1,68 @@
 import { Row, Col, Image, Typography, Card } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchSubmissions } from '@/lib/apis';
+import { useRouter } from 'next/router';
+import { LikeFilled } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { Meta } = Card;
 
+const contestID = "1"
+
 export default function Submissions(){
-    const cols = [];
-    const colCount = 3;
-    const gutter = 1;
-    const vgutter = 1;
-    let colCode = '';
-    for (let i = 0; i < colCount; i++) {
-        cols.push(
-        <Col key={i.toString()} span={24 / colCount}>
-            <Card
-                hoverable
-                style={{ width: 200 }}
-                cover={<img alt="example" src="https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/chapter_22.png" />}
-            >
-                <div>
-                    <Meta title="Title" description="winner" />
-                    <div>likes</div>
-                </div>
-            </Card>
-        </Col>,
-        );
-        colCode += `  <Col span={${24 / colCount}} />\n`;
-    }
+    const router = useRouter();
+    const [chunks, setChunks] = useState<any>([]);
+    const _chunks = []
+    const loadSubmissions = async () => {
+        const submissions = await fetchSubmissions(contestID);
+        const chunkSize = 3;
+        for (let i = 0; i < submissions.length; i += chunkSize) {
+            console.log(i)
+            const chunk = submissions.slice(i, i + chunkSize);
+            console.log(chunk)
+            _chunks.push(chunk)
+            console.log(_chunks.length)
+        }
+        setChunks(_chunks)
+
+    };
+
+    useEffect(() => {
+        loadSubmissions();
+    }, [])
+
     return(
         <div>
             
-            <Row gutter={[gutter, vgutter]}>
-                {cols}
-                {cols}
+            <Row>
+                {chunks && chunks.map((chunk, index) => (
+                    <Row key={index.toString()} justify="space-between" style={{marginBottom: 20}}>
+                        {chunk.map((submission, index) => (
+                            <>
+                            <Col key={index.toString()} span={7}>
+                                <Card
+                                    onClick={() => router.push("/vote")}
+                                    hoverable
+                                    style={{ width: 300 }}
+                                    cover={<img alt="example" src={submission.url} />}
+                                >
+                                    <div>
+                                        {/* <div>{submission.id}</div> */}
+                                        <Meta style={{marginBottom: 1}} title={submission.title} description={submission.author}/>
+                                        <div>
+                                            <LikeFilled style={{marginRight:3}} />
+                                            {submission.likes} likes
+                                        </div>
+                                    </div>
+                                </Card>
+                            </Col>
+                            {/* <Col span={1} ></Col> */}
+                            </>
+                            
+                        ))}
+                    </Row>
+                ))}
+
             </Row>
 
         </div>

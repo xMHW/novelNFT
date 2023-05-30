@@ -1,14 +1,43 @@
 import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { message, Upload, Typography, Button, Form, Input } from 'antd';
+import type { RcFile, UploadProps } from 'antd/es/upload';
+import { message, Upload, Typography, Button, Form, Input, Modal } from 'antd';
+import { submitContest } from '@/lib/apis';
+import { supabase } from '@/lib/supabase';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const { Dragger } = Upload;
 const { Title } = Typography;
 
+const userID = "b518694f-02e0-488a-b497-005b002a290e"
+const contestID = "1"
+
 const props: UploadProps = {
     name: 'file',
     multiple: false,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    customRequest: async ({ file, onSuccess, onError }) => { 
+      try {
+          const _file = (file as RcFile)
+          const { data, error } = await supabase.storage
+          .from("contest_submissions")
+          .upload(`./${_file.name}`, _file);
+          console.log(data.path)
+
+          const url = "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/" + data.path.slice(2)
+          console.log(url)
+          const { response } = await submitContest(userID, contestID, url)
+          console.log(response)
+
+          console.log("success")
+          onSuccess(data);
+      } catch (error) {
+          console.log("error")
+          onSuccess(error);
+          console.log(error)
+          // onError(error);
+      }
+    },
+    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
@@ -26,6 +55,8 @@ const props: UploadProps = {
   };
 
 export default function Entry(){
+    const router = useRouter();
+    const [onPreview, setOnPreview] = useState<boolean>(false)
     const onFinish = (values: any) => {
         console.log('Success:', values);
       };
@@ -43,10 +74,14 @@ export default function Entry(){
                 </p>
                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
                 <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-                banned files.
+                Support for a single or bulk upload.
                 </p>
+                
             </Dragger>
+            <Button style={{marginTop: 5}} onClick={()=>setOnPreview(true)}>Preview</Button>
+            <Modal open={onPreview} title={"preview"} footer={null} onCancel={()=>setOnPreview(false)}>
+              <img alt="example" style={{ width: '100%' }} src={"https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/Whispers%20from%20t%200.png"} />
+            </Modal>
             <Title level={3}>Information</Title>
             <Form
                 name="basic"
@@ -80,12 +115,13 @@ export default function Entry(){
                 >
                 <Input />
                 </Form.Item>
-
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+                <Button 
+                style={{ alignContent: "start", background: "#3056D3", color: "white" }} 
+                htmlType="submit"
+                onClick={()=>router.push("/contest/ongoing/submissions")}
+                >
                     Register
                 </Button>
-                </Form.Item>
             </Form>
         </div>
     )

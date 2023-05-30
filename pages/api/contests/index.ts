@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 
 export default async function handler(req, res) {
-  const { data: contests, error } = await supabase.from("contests").select("*");
+  const { data: contests, error } = await supabase.from("contests").select("*").neq("id", 1);
   if (error) {
     return res.status(500).json({ error: error.message });
   }

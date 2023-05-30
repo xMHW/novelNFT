@@ -88,7 +88,7 @@ const Header: React.FC = () => {
             About
           </Menu.Item>
           <Menu.Item key="contest">
-            Contest 
+            Contest
           </Menu.Item>
         </Menu>
       </Col>
