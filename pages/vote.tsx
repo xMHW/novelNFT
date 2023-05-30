@@ -180,7 +180,7 @@ export default function Vote() {
                 <Col span={18}>
                 </Col>
                 <Col span={6}>
-                    <Button type="primary" onClick={showVoteModal}>
+                    <Button style={{ background: "#3056D3", color: "white" }} type="primary" onClick={showVoteModal}>
                         Vote
                     </Button>
                     <Modal title="Vote" open={isVoteModalOpen} onOk={handleVoteApply} onCancel={handleVoteCancel}>
