@@ -372,40 +372,18 @@ export default function Home() {
         footer={null}
         width={1000}
       >
-        <Descriptions title="MC got a new skill" layout="vertical" bordered>
+        <Descriptions title="Exciting New Episode Released: Uncover the Mysteries of 'Realm of Sorcery' in Chapter 50!" layout="vertical" bordered>
           <Descriptions.Item label="Created At" span={1}>2023-05-21 18:00:00</Descriptions.Item>
-          <Descriptions.Item label="Author" span={1}>Author</Descriptions.Item>
+          <Descriptions.Item label="Author" span={1}>Aria Evergreen</Descriptions.Item>
           <Descriptions.Item label="Upvotes" span={1}>420</Descriptions.Item>
           <Descriptions.Item label="Content" span={3}>
-            TestTestTestTestTestTestTestTestTestTestTestTest
+            The highly anticipated Chapter 50 of the captivating fantasy webnovel, "Realm of Sorcery," has just been released, and readers are in for a treat!
             <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
+            Dive deeper into the enchanting world of magic and adventure as our protagonist, Elysia, faces new challenges and unravels the secrets of an ancient prophecy.
             <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
+            Prepare for thrilling twists, heart-pounding action, and unexpected alliances in this latest installment.
             <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
-            <br/>
-            TestTestTestTestTestTestTestTestTestTestTestTest
+            Don't miss out on the excitement—read Chapter 50 now!
           </Descriptions.Item>
         </Descriptions>
       </Modal>
