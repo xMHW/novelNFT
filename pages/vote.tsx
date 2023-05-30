@@ -5,6 +5,7 @@ import { CheckCircleOutlined, GithubOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { ethers } from "ethers";
 
 import Moralis from "moralis";
 import { MoralisNextApi } from "@moralisweb3/next";
@@ -74,30 +75,46 @@ async function checkTokenBalance() {
   }
 }
 
-async function transferToken(amount: number) {
-  try {
-    const response = await Moralis.EvmApi.token.getWalletTokenTransfers({ // it get transfer list of wallet
-      //"address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255",
-      "address": "0xdd9DFB70C43A94B5Af845f737bEDE08e9bB231DE",
-      "chain": "0xaa36a7"
-    });
-    /*
-    const response22 = await Moralis.EvmApi.token.getErc20Transfers({
-      "address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255",
-      "chain": "0xaa36a7"
-    });
-    */
-    console.log("response");
-    const resultJSON = response.toJSON();
-    console.log(resultJSON);
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-
 export default function Vote() {
+
+  const startPayment = async ({ setError, setTxs, ether, addr }) => {
+    try {
+      // @ts-ignore
+      if (!window.ethereum)
+      throw new Error("No crypto wallet found. Please install it.");
+      
+      // @ts-ignore
+      await window.ethereum.send("eth_requestAccounts");
+      // @ts-ignore
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      ethers.utils.getAddress(addr);
+      const tx = await signer.sendTransaction({
+        to: addr,
+        value: ethers.utils.parseEther(ether)
+      });
+      console.log({ ether, addr });
+      console.log("tx", tx);
+      setTxs([tx]);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const [error, setError] = useState();
+  const [txs, setTxs] = useState([]);
+
+  const handleSubmit = async (amount: number) => {
+    await startPayment({
+      setError,
+      setTxs,
+      ether: (amount * 0.000001).toString(),
+      addr: "0xdd9DFB70C43A94B5Af845f737bEDE08e9bB231DE"
+    });
+    setIsVoteModalOpen(false);
+  };
+
+
   const { status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -106,14 +123,17 @@ export default function Vote() {
   const showVoteModal = () => {
     setIsVoteModalOpen(true);
   }
-  const handleVoteApply = () => {
+  const handleVoteApply = (amount: number) => {
     //setIsVoteModalOpen();
     console.log("vote apply");
-    transferToken(1);
+    handleSubmit(amount);
+    // transferToken(1);
   }
   const handleVoteCancel = () => {
     setIsVoteModalOpen(false);
   }
+
+  const [sendAmount, setSendAmount] = useState(30);
 
   useEffect(() => {
     if (status === "loading") {
@@ -190,9 +210,9 @@ export default function Vote() {
                     <Button style={{ background: "#3056D3", color: "white" }} type="primary" onClick={showVoteModal}>
                         Vote
                     </Button>
-                    <Modal title="Vote" open={isVoteModalOpen} onOk={handleVoteApply} onCancel={handleVoteCancel}>
+                    <Modal title="Vote" open={isVoteModalOpen} onOk={() => {handleVoteApply(sendAmount)}} onCancel={handleVoteCancel}>
                         set amount you want to bet
-                        <Slider defaultValue={30} tooltip={{ /*modal close event => open to false*/open: true, placement:"bottom" }} />
+                        <Slider defaultValue={30} value={sendAmount} onChange={setSendAmount} tooltip={{ /*modal close event => open to false*/open: true, placement:"bottom" }} />
                     </Modal>
                 </Col>
             </Row>
