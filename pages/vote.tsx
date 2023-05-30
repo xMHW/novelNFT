@@ -8,7 +8,8 @@ import Link from "next/link";
 
 import Moralis from "moralis";
 import { MoralisNextApi } from "@moralisweb3/next";
-//import { EvmChain } from "@moralisweb3/common-evm-utils";
+import { EvmChain } from "@moralisweb3/common-evm-utils";
+import axios from "axios";
 
 const { Title } = Typography;
 
@@ -20,7 +21,7 @@ const data = [
     'Los Angeles battles huge wildfires.',
   ];
   
-  const similarContentData = [
+const similarContentData = [
     {
       title: 'Title 1',
     },
@@ -39,7 +40,7 @@ const data = [
     {
       title: 'Title 6',
     },
-  ];
+];
   
 async function checkTokenBalance() {
   try {
@@ -68,27 +69,64 @@ async function checkTokenBalance() {
   }
 }
 
+/// working.
+async function W() {
+  const address = "0x608F5346A55215E1054Ef93969e004Ac15c7a255";
+  const chain = EvmChain.SEPOLIA;
+  const response = await Moralis.EvmApi.token.getWalletTokenTransfers({
+    address, 
+    chain,
+  });
+  console.log(response.toJSON());
+}
+
+/*
 async function transferToken(amount: number) {
   try {
-    const response = await Moralis.EvmApi.token.getWalletTokenTransfers({ // it get transfer list of wallet
-      //"address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255",
-      "address": "0xdd9DFB70C43A94B5Af845f737bEDE08e9bB231DE",
-      "chain": "0xaa36a7"
+    const chain = EvmChain.SEPOLIA;
+    const address = "0x1A92f7381B9F03921564a437210bB9396471050C";
+    // token 0 address, e.g. WETH token address
+    //const functionName = "getPrice";
+    const functionName = "transfer";
+    const response = await Moralis.EvmApi.utils.runContractFunction({
+      address,
+      functionName,
+      abi,
+      chain,
     });
-    /*
-    const response22 = await Moralis.EvmApi.token.getErc20Transfers({
-      "address": "0x608F5346A55215E1054Ef93969e004Ac15c7a255",
-      "chain": "0xaa36a7"
-    });
-    */
-    console.log("response");
-    const resultJSON = response.toJSON();
-    console.log(resultJSON);
-
+  
+    console.log(response.toJSON());  
   } catch (e) {
     console.error(e);
   }
 }
+
+const TransferWeth = () => {
+  const {fetch, error, isFetching} = useWeb3Transfer({
+    amount: Moralis.Units.Token(20, 18),
+    receiver: "0x0000000000000000000000000000000000000000",
+    type: "erc20",
+    contractAddress: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  });
+
+  return (<div>
+    {error && <ErrorMessage error={error} />}
+    <button onClick={() => fetch()} disabled={isFetching}>Transfer</button>
+  </div>)
+}
+
+async function Y() {
+  // sending a token with token id = 1
+  const options = {
+    type: "erc20",
+    receiver: "0xdd9DFB70C43A94B5Af845f737bEDE08e9bB231DE",
+    contractAddress: "",
+    tokenId: 15,        
+  };
+  await Moralis.Web3.enable();
+  let transaction = await Moralis.EvmApi.token.transfer(options);  
+}
+*/
 
 
 export default function Vote() {
@@ -100,10 +138,10 @@ export default function Vote() {
   const showVoteModal = () => {
     setIsVoteModalOpen(true);
   }
-  const handleVoteApply = () => {
+  const handleVoteApply = async () => {
     //setIsVoteModalOpen();
     console.log("vote apply");
-    transferToken(1);
+    await axios.get("api/transfer");
   }
   const handleVoteCancel = () => {
     setIsVoteModalOpen(false);
