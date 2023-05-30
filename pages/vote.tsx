@@ -5,6 +5,7 @@ import { CheckCircleOutlined, GithubOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { ethers } from "ethers";
 
 import Moralis from "moralis";
 import { MoralisNextApi } from "@moralisweb3/next";
@@ -98,6 +99,44 @@ async function transferToken(amount: number) {
 
 
 export default function Vote() {
+
+  const startPayment = async ({ setError, setTxs, ether, addr }) => {
+    try {
+      // @ts-ignore
+      if (!window.ethereum)
+      throw new Error("No crypto wallet found. Please install it.");
+      
+      // @ts-ignore
+      await window.ethereum.send("eth_requestAccounts");
+      // @ts-ignore
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      ethers.utils.getAddress(addr);
+      const tx = await signer.sendTransaction({
+        to: addr,
+        value: ethers.utils.parseEther(ether)
+      });
+      console.log({ ether, addr });
+      console.log("tx", tx);
+      setTxs([tx]);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const [error, setError] = useState();
+  const [txs, setTxs] = useState([]);
+
+  const handleSubmit = async () => {
+    await startPayment({
+      setError,
+      setTxs,
+      ether: "0.000001",
+      addr: "0xdd9DFB70C43A94B5Af845f737bEDE08e9bB231DE"
+    });
+  };
+
+
   const { status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -109,7 +148,8 @@ export default function Vote() {
   const handleVoteApply = () => {
     //setIsVoteModalOpen();
     console.log("vote apply");
-    transferToken(1);
+    handleSubmit();
+    // transferToken(1);
   }
   const handleVoteCancel = () => {
     setIsVoteModalOpen(false);
