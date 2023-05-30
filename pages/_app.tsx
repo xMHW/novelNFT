@@ -31,7 +31,7 @@ export default function App({
           <RecoilRoot>
             <Layout>
               <Header />
-              <Content style={{ padding: "20px 200px 20px 200px", backgroundColor: "#F4F7FF", width: "100%", height: "100vh" }}>
+              <Content style={{ padding: "20px 200px 20px 200px", backgroundColor: "#F4F7FF", width: "100%", height: "100%" }}>
                 <ConfigProvider
                     theme={{
                       token: {

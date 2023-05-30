@@ -22,9 +22,9 @@ const Header: React.FC = () => {
       if(global.currentTab !== "about") {
         setGlobal({...global, ...{currentTab: "about"}})
       }
-    } else if(router.asPath == "/features") {
-      if(global.currentTab !== "features") {
-        setGlobal({...global, ...{currentTab: "features"}})
+    } else if(router.asPath == "/contest") {
+      if(global.currentTab !== "contest") {
+        setGlobal({...global, ...{currentTab: "contest"}})
       }
     } else if(router.asPath == "/login") {
       if(global.currentTab !== "login") {
@@ -47,9 +47,9 @@ const Header: React.FC = () => {
     } else if (e.key == "about") {
       setGlobal({ ...global, ...{ currentTab: "about" } });
       router.push("/about");
-    } else if (e.key == "features") {
-      setGlobal({ ...global, ...{ currentTab: "features" } });
-      router.push("/features");
+    } else if (e.key == "contest") {
+      setGlobal({ ...global, ...{ currentTab: "contest" } });
+      router.push("/contest");
     } else if (e.key == "login") {
       setGlobal({ ...global, ...{ currentTab: "login" } });
       router.push("/login");
@@ -87,8 +87,8 @@ const Header: React.FC = () => {
           <Menu.Item key="about">
             About
           </Menu.Item>
-          <Menu.Item key="features">
-            Features
+          <Menu.Item key="contest">
+            Contest
           </Menu.Item>
         </Menu>
       </Col>

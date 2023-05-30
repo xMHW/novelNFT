@@ -1,8 +1,10 @@
 import { InboxOutlined } from '@ant-design/icons';
 import type { RcFile, UploadProps } from 'antd/es/upload';
-import { message, Upload, Typography, Button, Form, Input } from 'antd';
+import { message, Upload, Typography, Button, Form, Input, Modal } from 'antd';
 import { submitContest } from '@/lib/apis';
 import { supabase } from '@/lib/supabase';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const { Dragger } = Upload;
 const { Title } = Typography;
@@ -13,23 +15,6 @@ const contestID = "1"
 const props: UploadProps = {
     name: 'file',
     multiple: false,
-    onPreview: async (file) => {
-      let src = file.url;
-      console.log(src)
-      if (!src) {
-        src = await new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file.originFileObj as Blob);
-          reader.onload = () => resolve(reader.result);
-        });
-      }
-      const image = new Image();
-      image.src = src as string;
-      const imgWindow = window.open(src);
-      if (imgWindow) {
-        imgWindow.document.write(image.outerHTML);
-      }
-    },
     customRequest: async ({ file, onSuccess, onError }) => { 
       try {
           const _file = (file as RcFile)
@@ -70,6 +55,8 @@ const props: UploadProps = {
   };
 
 export default function Entry(){
+    const router = useRouter();
+    const [onPreview, setOnPreview] = useState<boolean>(false)
     const onFinish = (values: any) => {
         console.log('Success:', values);
       };
@@ -89,7 +76,12 @@ export default function Entry(){
                 <p className="ant-upload-hint">
                 Support for a single or bulk upload.
                 </p>
+                
             </Dragger>
+            <Button style={{marginTop: 5}} onClick={()=>setOnPreview(true)}>Preview</Button>
+            <Modal open={onPreview} title={"preview"} footer={null} onCancel={()=>setOnPreview(false)}>
+              <img alt="example" style={{ width: '100%' }} src={"https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/Whispers%20from%20t%200.png"} />
+            </Modal>
             <Title level={3}>Information</Title>
             <Form
                 name="basic"
@@ -123,12 +115,13 @@ export default function Entry(){
                 >
                 <Input />
                 </Form.Item>
-
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+                <Button 
+                style={{ alignContent: "start", background: "#3056D3", color: "white" }} 
+                htmlType="submit"
+                onClick={()=>router.push("/contest/ongoing/submissions")}
+                >
                     Register
                 </Button>
-                </Form.Item>
             </Form>
         </div>
     )
