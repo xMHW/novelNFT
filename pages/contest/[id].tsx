@@ -52,6 +52,14 @@ export default function Detail(){
         (contest) &&
         <>
             <div>
+                <Button type="primary" onClick={() => router.push("/contest/entry")}>
+                    Go to Enter
+                </Button>
+                <Button type="primary" onClick={() => router.push("/contest/ongoing/submissions")}>
+                    Submissions
+                </Button>
+            </div>
+            <div>
                 <Title level={3}>Subject</Title >
                 <Card style={{ width: 300 }}>
                     <p>{contest.name}</p>
