@@ -6,7 +6,7 @@ const { Title } = Typography;
 export default function ongoingSubmissions(){
     return(
         <div>
-            <Title>“Kim Dok-ja” Illustration</Title>
+            <Title>Main Character Illustration</Title>
             <Title level={2}>Submissions</Title>
             <Submissions />
         </div>
