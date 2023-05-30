@@ -22,22 +22,28 @@ const data = [
   
   const similarContentData = [
     {
-      title: 'Title 1',
+      title: 'Pet Gato',
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/08.jpeg"
     },
     {
-      title: 'Title 2',
+      title: 'Villain X',
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/09.jpeg"
     },
     {
-      title: 'Title 3',
+      title: 'Super Power',
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/11.jpeg"
     },
     {
-      title: 'Title 4',
+      title: 'Heroin',
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/12.jpeg"
     },
     {
-      title: 'Title 5',
+      title: 'Abyss',
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/13.jpeg"
     },
     {
-      title: 'Title 6',
+      title: 'Secret Power M',
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/14.jpeg"
     },
   ];
   
@@ -139,6 +145,7 @@ export default function Vote() {
             <Image
                 width={300}
                 height={300}
+                src="https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/15.jpeg"
             />
         </Col>
         <Col span={12}>
@@ -150,7 +157,7 @@ export default function Vote() {
                     minHeight: "6vh",
                 }}
             >
-                <Title level={2}>Title</Title>
+                <Title level={2}>Paladin</Title>
             </Row>
             <Row>
                 <Col span={5}><Rate disabled defaultValue={3} /></Col>
@@ -247,7 +254,7 @@ export default function Vote() {
                     dataSource={similarContentData}
                     renderItem={(item) => (
                     <List.Item>
-                        <Link href="/"><Card title={<Image width={100} height={100} preview={false}/>}>{item.title}</Card></Link>
+                        <Link href="/"><Card title={<Image width={100} height={100} preview={false} src={item.src}/>}>{item.title}</Card></Link>
                     </List.Item>
                     )}
                 />
