@@ -22,8 +22,8 @@ const NewsCard = (props: NewsCardProps): JSX.Element => {
   return (
     <Card
       hoverable
-      style={{ width: 240, backgroundColor: token.colorPrimary }}
-      cover={<img alt={imageAlt} src={imageLink} />}
+      style={{ width: 240, height: 400, backgroundColor: token.colorPrimary }}
+      cover={<img width={240} height={300} alt={imageAlt} src={imageLink} />}
       onClick={() => {setOpen(true)}}
     >
       <Meta title={title} description={date} />
@@ -95,7 +95,7 @@ const HOFCard = (props: { item: HOFItem }): JSX.Element => {
                   description={row.tokenCount}
                 />
               </List.Item>
-          )}/> : <img alt={item.title} src={item.thumbnailLink} />
+          )}/> : <img width={180} height={226} alt={item.title} src={item.thumbnailLink} />
       }>
         <Meta title={item.title} />
       </Card>)
@@ -126,7 +126,7 @@ const VoteCard = (props: { item: VoteItem }): JSX.Element => {
           preview={{ visible: false }}
           width={180}
           height={250}
-          src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp"
+          src={item.thumbnailLink}
           onClick={() => setVisible(true)}
         />
         <div style={{ display: 'none' }}>
@@ -159,25 +159,25 @@ export default function Home() {
     {
       title: "Chapter #22",
       date: "Yesterday",
-      imageLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      imageLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/01.png",
       imageAlt: "Chapter #22"
     },
     {
       title: "Chapter #21",
       date: "2 days ago",
-      imageLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      imageLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/02.png",
       imageAlt: "Chapter #21"
     },
     {
       title: "Writer's Comment",
       date: "5 days ago",
-      imageLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      imageLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/03.png",
       imageAlt: "Writer's Comment"
     },
     {
       title: "Community Open",
       date: "8 days ago",
-      imageLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      imageLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/04.png",
       imageAlt: "Community Open"
     }
   ]
@@ -186,25 +186,28 @@ export default function Home() {
       title: "MC got a new skill",
       author: "Author",
       category: "News",
-      upvoteCount: 400
+      upvoteCount: 400,
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/05.png"
     },
     {
       title: "7 reasons why X is villain",
       author: "Author",
       category: "Discussion",
-      upvoteCount: 264
+      upvoteCount: 264, 
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/06.png"
     },
     {
       title: "Help me to remember the chapter",
       author: "Author",
       category: "Question",
-      upvoteCount: 87
+      upvoteCount: 87,
+      src: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/07.png"
     }
   ]
   const dataVotes: VoteItem[] = [
     {
       title: "MC Skill Contest",
-      thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thumbnailLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/Question_mark_(black).svg.png",
       firstLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
       secondLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
       thirdLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -213,7 +216,7 @@ export default function Home() {
     },
     {
       title: "Official Illust Vote",
-      thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thumbnailLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/Book%20Cover%20in%20f%200.png",
       firstLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
       secondLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
       thirdLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -222,7 +225,7 @@ export default function Home() {
     },
     {
       title: "Villain X Fan Art Vote",
-      thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thumbnailLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/Memorable%20Quote%201.png",
       firstLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
       secondLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
       thirdLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -239,12 +242,12 @@ export default function Home() {
     },
     {
       title: "Fan Art",
-      thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thumbnailLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/contest_submissions/Fancomic%20in%20fan%201.png",
       type: "fanart"
     },
     {
       title: "Officials",
-      thumbnailLink: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+      thumbnailLink: "https://yssqxlnziqbocixqzokp.supabase.co/storage/v1/object/public/thumbnails/10.jpeg",
       type: "official"
     }
   ]
@@ -323,7 +326,7 @@ export default function Home() {
                 <List.Item.Meta
                   style={{ width: "420px", maxWidth: "420px" }}
                   avatar={<Image width={68} 
-                                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                src={item.src}
                           />}
                   title={<a>{item.title}</a>}
                   description={item.author}
