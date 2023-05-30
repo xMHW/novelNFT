@@ -68,12 +68,15 @@ export default function Detail(){
         <>
             <Row>
                 <Title level={2}>NovelNFT Contest</Title >
-                <Button style={{ marginLeft: 30, marginTop: 30, background: "#3056D3", color: "white" }} onClick={() => router.push("/contest/entry")}>
-                    Go to Enter
-                </Button>
+                {contest.id === 1 &&
+                    <Button style={{ marginLeft: 30, marginTop: 30, background: "#3056D3", color: "white" }} onClick={() => router.push("/contest/entry")}>
+                        Go to Enter
+                    </Button>
+                }
                 <Button style={{ marginLeft: 10, marginTop: 30, background: "#212B36", color: "white"}} onClick={() => router.push("/contest/ongoing/submissions")}>
                     Submissions
                 </Button>
+                
             </Row>
             <div>
                 <Title level={3}>Subject</Title >
